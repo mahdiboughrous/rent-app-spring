@@ -8,6 +8,8 @@ gateway:
   discovery:
     locator:
       enabled: true
+      lower-case-service-id: true
+
 
 server:
   port: 7771 
