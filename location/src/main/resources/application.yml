@@ -1,27 +1,7 @@
 spring:
   application:
     name: location
-  datasource:
-    url: jdbc:postgresql://localhost:5432/location_service
-    username: admin
-    password: admin
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+
   config:
     import: optional:configserver:http://localhost:7777/
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-server:
-  port: 8081

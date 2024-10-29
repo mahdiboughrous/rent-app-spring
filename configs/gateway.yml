@@ -1,2 +1,13 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+gateway:
+  discovery:
+    locator:
+      enabled: true
+
 server:
-  port: 8888
+  port: 7771 

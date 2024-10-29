@@ -4,15 +4,3 @@ spring:
   config:
     import: optional:configserver:http://localhost:7777/
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-gateway:
-  discovery:
-    locator:
-      enabled: true
-server:
-  port: 7771 
