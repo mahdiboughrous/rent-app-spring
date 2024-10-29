@@ -6,6 +6,8 @@ import com.boughrous.domain.Hotel;
 import com.boughrous.dto.requests.HotelRequest;
 import com.boughrous.dto.responses.HotelResponse;
 import com.boughrous.dto.responses.LocationResponse;
+
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,8 @@ public class HotelServiceImpl implements HotelService {
     private HotelRepository hotelRepository;
     @Autowired
     private OpenFeinLocation openFeinLocation;
-
+    @Autowired
+    private CircuitLocationService circuitLocationService;
 
 
     @Override
@@ -42,21 +45,26 @@ public class HotelServiceImpl implements HotelService {
         hotelResponse.setName(hotel.getName());
         hotelResponse.setNumberOfStars(hotel.getNumberOfStars());
         hotelResponse.setNumberOfRooms(hotel.getNumberOfRooms());
-        //hotelResponse.setLocationId(hotel.getLocationId());
-        hotelResponse.setLocationResponse(getLocationById(hotel.getLocationId()));
+            // hotelResponse.setLocationId(hotel.getLocationId());
+        hotelResponse.setLocationResponse(circuitLocationService.getLocationById(hotel.getLocationId()));
 
         return hotelResponse;
 
 
     }
-    public LocationResponse getLocationById(long locationId){
-        /*RestTemplate restTemplate = new RestTemplate();
-        String uri = "http://localhost:8081/api/locations/{id}";
-        LocationResponse locationResponse = restTemplate.getForObject(uri, LocationResponse.class, locationId);*/
+    // public LocationResponse getLocationById(long locationId){
+    //     /*RestTemplate restTemplate = new RestTemplate();
+    //     String uri = "http://localhost:8081/api/locations/{id}";
+    //     LocationResponse locationResponse = restTemplate.getForObject(uri, LocationResponse.class, locationId);*/
 
-        //LocationResponse locationResponse = locationFeignClient.getLocationById(locationId);
-        return openFeinLocation.getLocationById(locationId);
-    }
+    //     //LocationResponse locationResponse = locationFeignClient.getLocationById(locationId);
+    //     return openFeinLocation.getLocationById(locationId);
+    // }
+
+    @CircuitBreaker(name = "locationService")
+    public LocationResponse getLocationById(long locationId){
+    LocationResponse locationResponse = openFeinLocation.getLocationById(locationId);
+    return locationResponse;}
 
 
 }

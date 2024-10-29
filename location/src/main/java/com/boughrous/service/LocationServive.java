@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
+
 public interface LocationServive {
     public long addLocation(LocationRequest location);
     public LocationResponse getLocationById(long id);
