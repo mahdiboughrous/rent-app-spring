@@ -1,14 +1,16 @@
 spring:
   application:
-    name: hotel-service
-
+    name: location
+  config:
+    import:
+      - "optional:configserver:http://localhost:7777/"
   datasource:
-    url: jdbc:postgresql://localhost:5432/hotel_service
+    url: jdbc:postgresql://localhost:5432/location_service
     username: admin
     password: admin
     driver-class-name: org.postgresql.Driver
-
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: update
     properties:
@@ -16,5 +18,11 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 server:
-  port: 8088
+  port: 8081
