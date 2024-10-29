@@ -5,8 +5,10 @@ spring:
     config:
       server:
         git:
+          skip-ssl-validation: true
           uri: https://github.com/mahdiboughrous/rent-app-spring
-          searchPaths: configs 
+          search-paths:
+          - configs
 
 server:
     port: 7777 
